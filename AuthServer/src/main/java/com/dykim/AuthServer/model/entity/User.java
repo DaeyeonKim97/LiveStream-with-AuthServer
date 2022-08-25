@@ -1,8 +1,6 @@
-package com.dykim.AuthServer.model;
+package com.dykim.AuthServer.model.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,6 +50,18 @@ public class User implements Serializable {
         this.joinDate = joinDate;
         this.isDeleted = isDeleted;
         this.deletedDate = deletedDate;
+    }
+
+    //SignUp constructor
+    public User(String userName, String password, String name, String email) {
+        this(-1,userName,password,name,email,"N",null,null,new Date(System.currentTimeMillis()),"N",null);
+    }
+
+    //Copy constructor
+    public User(User user){
+        this(user.getId(), user.getUserName(), user.getPassword(), user.getName(),
+                user.getEmail(), user.getCertification(), user.getPhone(), user.getProfileImgSrc(),
+                user.getJoinDate(), user.getIsDeleted(), user.getDeletedDate());
     }
 
     public int getId() {

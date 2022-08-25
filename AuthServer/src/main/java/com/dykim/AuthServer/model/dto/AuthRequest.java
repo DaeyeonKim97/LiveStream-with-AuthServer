@@ -1,4 +1,4 @@
-package com.dykim.AuthServer.model;
+package com.dykim.AuthServer.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

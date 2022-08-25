@@ -1,4 +1,4 @@
-package com.dykim.AuthServer.model;
+package com.dykim.AuthServer.model.entity;
 
 import com.sun.istack.NotNull;
 

@@ -1,6 +1,6 @@
 package com.dykim.AuthServer.controller;
 
-import com.dykim.AuthServer.model.AuthRequest;
+import com.dykim.AuthServer.model.dto.AuthRequest;
 import com.dykim.AuthServer.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -19,7 +18,7 @@ public class LoginController {
     @Autowired
     LoginController(JwtUtil jwtUtil, AuthenticationManager authenticationManager){
         this.jwtUtil = jwtUtil;
-        this. authenticationManager = authenticationManager;
+        this.authenticationManager = authenticationManager;
     }
 
 
@@ -27,9 +26,10 @@ public class LoginController {
     public String generateToken(@RequestBody AuthRequest authRequest, HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(),authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(),
+                            authRequest.getPassword())
             );
-        } catch (Exception ex){
+        } catch (Exception e){
             response.setStatus(400);
             return "invalid username/password";
         }

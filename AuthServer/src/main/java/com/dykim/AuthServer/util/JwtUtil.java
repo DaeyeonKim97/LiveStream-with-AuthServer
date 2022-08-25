@@ -2,8 +2,8 @@ package com.dykim.AuthServer.util;
 
 import com.dykim.AuthServer.database.repository.LoginLogRepository;
 import com.dykim.AuthServer.database.repository.UserRepository;
-import com.dykim.AuthServer.model.LoginLog;
-import com.dykim.AuthServer.model.User;
+import com.dykim.AuthServer.model.entity.LoginLog;
+import com.dykim.AuthServer.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
