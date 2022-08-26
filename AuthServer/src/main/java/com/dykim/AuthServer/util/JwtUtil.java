@@ -19,6 +19,8 @@ import java.util.function.Function;
 public class JwtUtil {
     @Value("${jwt.secret}")
     private String secret;
+    @Value("${jwt.access-token-validity-in-seconds}")
+    private Integer expireSecond;
     private final LoginLogRepository loginLogRepository;
     private final UserRepository userRepository;
 
@@ -58,7 +60,7 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * expireSecond))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
     public Boolean validateToken(String token, UserDetails userDetails) {
