@@ -7,6 +7,9 @@ import com.dykim.AuthServer.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserInfoServiceImpl implements UserInfoService{
 
@@ -29,5 +32,23 @@ public class UserInfoServiceImpl implements UserInfoService{
                 user.getIsDeleted()
         );
         return otherUserInfo;
+    }
+
+    @Override
+    public List<OtherUser> getAllUsersInfo() {
+        List<User> userList = repository.findAll();
+        List<OtherUser> otherUserList = new ArrayList<>();
+
+        for(User user : userList){
+            otherUserList.add(new OtherUser(
+                    user.getId(),
+                    user.getUserName(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getProfileImgSrc(),
+                    user.getIsDeleted()
+            ));
+        }
+        return otherUserList;
     }
 }

@@ -3,14 +3,13 @@ package com.dykim.AuthServer.controller;
 import com.dykim.AuthServer.model.dto.OtherUser;
 import com.dykim.AuthServer.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
@@ -21,10 +20,27 @@ public class UserInfoController {
     }
 
     @ResponseBody
-    @GetMapping("user/{id}")
-    public Object getUserInfo(@RequestParam("id") int userId, HttpServletResponse response){
+    @GetMapping("{id}")
+    public Object getUserInfo(@PathVariable("id") int userId, HttpServletResponse response){
         OtherUser otherUserInfo = userInfoService.getUserInfo(userId);
+        if(otherUserInfo == null){
+            response.setStatus(400);
+            return "user is not available";
+        }
 
         return otherUserInfo;
+    }
+
+    @ResponseBody
+    @GetMapping
+    public Object getUsersInfo(HttpServletResponse response){
+        List<OtherUser> otherUserList = userInfoService.getAllUsersInfo();
+
+        if(otherUserList.isEmpty()){
+            response.setStatus(204);
+            return "no user";
+        }
+
+        return otherUserList;
     }
 }

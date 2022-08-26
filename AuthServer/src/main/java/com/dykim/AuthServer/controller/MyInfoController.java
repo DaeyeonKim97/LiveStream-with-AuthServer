@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@RequestMapping("/info")
 public class MyInfoController {
     private final MyInfoService myInfoService;
 
@@ -20,7 +21,7 @@ public class MyInfoController {
     }
 
     @ResponseBody
-    @GetMapping("/info")
+    @GetMapping
     public Object getMyInfo(HttpServletResponse response){
         String username = null;
         try{
@@ -41,7 +42,7 @@ public class MyInfoController {
     }
 
 
-    @PutMapping("/info")
+    @PutMapping
     public String updateMyInfo(@RequestBody User updateUserInfo, HttpServletResponse response){
         String username = null;
         try{
@@ -60,7 +61,7 @@ public class MyInfoController {
         }
     }
 
-    @PutMapping("info/password")
+    @PutMapping("password")
     public String updateMyPassword(@RequestBody PasswordRequest passwordRequest, HttpServletResponse response){
         String username = null;
         try{
