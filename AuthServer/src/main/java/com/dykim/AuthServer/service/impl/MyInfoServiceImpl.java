@@ -2,7 +2,6 @@ package com.dykim.AuthServer.service.impl;
 
 import com.dykim.AuthServer.database.repository.PasswordChangeLogRepository;
 import com.dykim.AuthServer.database.repository.UserRepository;
-import com.dykim.AuthServer.model.dto.OtherUser;
 import com.dykim.AuthServer.model.entity.PasswordChangeLog;
 import com.dykim.AuthServer.model.entity.User;
 import com.dykim.AuthServer.service.MyInfoService;
