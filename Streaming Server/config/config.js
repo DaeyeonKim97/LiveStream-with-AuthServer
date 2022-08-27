@@ -18,7 +18,7 @@ const config = {
             allow_origin: '*'
         },
         trans: {
-            ffmpeg: '/usr/bin/ffmpeg',
+            ffmpeg: '/opt/homebrew/bin/ffmpeg',
             tasks: [
                 {
                     app: 'live',

@@ -6,8 +6,6 @@ var nms = new NodeMediaServer(config)
 nms.on('preConnect', (id, args) => {
   console.log('[NodeEvent on preConnect]', `id=${id} args=${JSON.stringify(args)}`);
 
-  console.log("[app] : ",JSON.stringify(args).app);
-  console.log("[swfUrl] : ",JSON.stringify(args).app);
   // let session = nms.getSession(id);
   // session.reject();
 });
