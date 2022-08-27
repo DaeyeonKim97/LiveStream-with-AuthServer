@@ -1,13 +1,12 @@
 const NodeMediaServer = require('node-media-server');
+const Stream = require('../database/schema')
 const config = require('../config/config').rtmp_server;
+const generateThumbnail = require('../thumbnail/thumbnail_generator')
 
 var nms = new NodeMediaServer(config)
 
 nms.on('preConnect', (id, args) => {
   console.log('[NodeEvent on preConnect]', `id=${id} args=${JSON.stringify(args)}`);
-
-  // let session = nms.getSession(id);
-  // session.reject();
 });
 
 nms.on('postConnect', (id, args) => {
@@ -18,10 +17,23 @@ nms.on('doneConnect', (id, args) => {
   console.log('[NodeEvent on doneConnect]', `id=${id} args=${JSON.stringify(args)}`);
 });
 
-nms.on('prePublish', (id, StreamPath, args) => {
+nms.on('prePublish', async (id, StreamPath, args) => {
   console.log('[NodeEvent on prePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
-  // let session = nms.getSession(id);
-  // session.reject();
+  let streamKey = getStreamKeyFromPath(StreamPath);
+  
+  Stream.findOne({streamKey: streamKey}, (err, user) => {
+    if (!err) {
+        if (!user) {
+            let session = nms.getSession(id);
+            session.reject();
+            console.log('일치하지 않는 스트리밍 키로 접속');
+        } else {
+            generateThumbnail(streamKey);
+            console.log('썸네일 생성');
+        }
+    }
+});
+
 });
 
 nms.on('postPublish', (id, StreamPath, args) => {
