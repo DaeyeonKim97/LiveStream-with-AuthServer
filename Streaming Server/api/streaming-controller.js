@@ -82,3 +82,41 @@ exports.generateKey = async (req,res,next)=>{
 }
 
 
+exports.getStreamKey = (req, res, next) =>{
+
+    const userName = req.body.userName;
+
+    Stream.findOne({userName:userName}, (err, user)=>{
+        if(!err){
+            if(!user){
+                res.status(HttpStatus.BAD_REQUEST).send({
+                    status: HttpStatus.BAD_REQUEST,
+                    message : '해당 유저의 스트림키가 존재하지 않습니다.'
+                })
+            }
+            else{
+                res.status(HttpStatus.OK).send({
+                    status: HttpStatus.OK,
+                    message : 'OK',
+                    results : user.streamKey,
+                })
+            }
+        } else{
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+                status: HttpStatus.INTERNAL_SERVER_ERROR,
+                message : '조회 실패'
+            })
+        }
+    })
+}
+
+exports.getIsOn = (req,res,next) => {
+    
+    Stream.find({isOn:true}, (err,users)=>{
+        res.status(HttpStatus.OK).send({
+            status: HttpStatus.OK,
+            message : 'OK',
+            results : users,
+        })
+    })
+}

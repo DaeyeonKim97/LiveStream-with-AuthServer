@@ -18,21 +18,24 @@ nms.on('doneConnect', (id, args) => {
 });
 
 nms.on('prePublish', async (id, StreamPath, args) => {
-  console.log('[NodeEvent on prePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
-  let streamKey = getStreamKeyFromPath(StreamPath);
+    console.log('[NodeEvent on prePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+    let streamKey = getStreamKeyFromPath(StreamPath);
   
-  Stream.findOne({streamKey: streamKey}, (err, user) => {
-    if (!err) {
-        if (!user) {
-            let session = nms.getSession(id);
-            session.reject();
-            console.log('일치하지 않는 스트리밍 키로 접속');
-        } else {
-            generateThumbnail(streamKey);
-            console.log('썸네일 생성');
+    Stream.findOne({streamKey: streamKey}, (err, user) => {
+        if (!err) {
+            if (!user) {
+                let session = nms.getSession(id);
+                session.reject();
+                console.log('일치하지 않는 스트리밍 키로 접속');
+            } else {
+                generateThumbnail(streamKey);
+                console.log('썸네일 생성');
+
+                user.isOn = true;
+                user.save();
+            }
         }
-    }
-});
+    });
 
 });
 
@@ -41,7 +44,19 @@ nms.on('postPublish', (id, StreamPath, args) => {
 });
 
 nms.on('donePublish', (id, StreamPath, args) => {
-  console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+    console.log('[NodeEvent on donePublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+    let streamKey = getStreamKeyFromPath(StreamPath);
+
+    Stream.findOne({streamKey: streamKey}, (err, user) => {
+        if (!err) {
+            if(!user){
+            }
+            else{
+                user.isOn = false;
+                user.save();
+            }
+        }
+    });
 });
 
 nms.on('prePlay', (id, StreamPath, args) => {
