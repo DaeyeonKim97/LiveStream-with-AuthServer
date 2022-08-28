@@ -9,6 +9,7 @@ const port = config.server.port;
 const express = require('express');
 const app = express()
 const apiRouter = require('./routes/api-route');
+const thumbnail_generator = require('./thumbnail/cron_thumbnail');
 
 mongoose.connect('mongodb://127.0.0.1/nodeStream',{useNewUrlParser:true}, (err)=>{
   if(err){
@@ -19,20 +20,12 @@ mongoose.connect('mongodb://127.0.0.1/nodeStream',{useNewUrlParser:true}, (err)=
   }
 });
 
-// app.use(session({
-//   store: MongoStore.create({
-//     mongoUrl: 'mongodb://127.0.0.1/nodeStream',
-//     ttl: 14 * 24 * 60 * 60 // = 14 days. Default
-//   }),
-//   secret: config.server.secret,
-//   maxAge : Date().now + (60 * 1000 * 30),
-//   resave : true,
-//   saveUninitialized : false,
-// }));
 app.use(express.json());
 app.use('/stream',apiRouter);
+app.use('/thumbnails',express.static('thumbnails'));
 
 
 
 app.listen(port, ()=>console.log(`listening on ${port}...`));
 media_server.run();
+thumbnail_generator.start();

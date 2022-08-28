@@ -14,7 +14,7 @@ const config = {
         },
         http: {
             port: 8000,
-            mediaroot: './server/media',
+            mediaroot: './media',
             allow_origin: '*'
         },
         trans: {

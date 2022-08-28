@@ -29,7 +29,6 @@ nms.on('prePublish', async (id, StreamPath, args) => {
                 console.log('일치하지 않는 스트리밍 키로 접속');
             } else {
                 generateThumbnail(streamKey);
-                console.log('썸네일 생성');
 
                 user.isOn = true;
                 user.save();
@@ -41,6 +40,8 @@ nms.on('prePublish', async (id, StreamPath, args) => {
 
 nms.on('postPublish', (id, StreamPath, args) => {
   console.log('[NodeEvent on postPublish]', `id=${id} StreamPath=${StreamPath} args=${JSON.stringify(args)}`);
+  let streamKey = getStreamKeyFromPath(StreamPath);
+  generateThumbnail(streamKey);
 });
 
 nms.on('donePublish', (id, StreamPath, args) => {
