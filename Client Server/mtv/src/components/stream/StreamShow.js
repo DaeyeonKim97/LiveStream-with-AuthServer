@@ -1,12 +1,13 @@
 import React from "react";
 import flv from 'flv.js';
 
+
 class StreamShow extends React.Component {
   constructor(props) {
     super(props);
     this.videoRef = React.createRef();
   }
-
+  
   componentDidMount() {
     this.buildPlayer();
   }
@@ -23,7 +24,7 @@ class StreamShow extends React.Component {
 
     this.flvPlayer = flv.createPlayer({
         type: 'flv',
-        url: `http://localhost:8000/live/test.flv`
+        url: `http://localhost:8000/live/${this.props.streamKey}.flv`
     });
     this.flvPlayer.attachMediaElement(this.videoRef.current);
     this.flvPlayer.load();
@@ -34,7 +35,7 @@ class StreamShow extends React.Component {
 
     return (
       <>
-        <video ref={this.videoRef} style={{ width: 1100 }} controls/>
+        <video ref={this.videoRef} style={{ width: "100%" }} controls autoPlay/>
       </>
     )
   }

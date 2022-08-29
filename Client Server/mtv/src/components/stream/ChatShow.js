@@ -63,8 +63,8 @@ export default function ChatShow(props){
 
 
     return(
-        <Box style={{height:"480.9px"}}>
-            <div style={{height:'440.9px', overflow:'scroll'}}>
+        <Box style={{height:"100%"}}>
+            <div style={{height:"70%", overflow:'scroll'}}>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                     {
                         data.map((item, index)=>{
