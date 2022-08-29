@@ -13,8 +13,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { LoginAPI } from '../../apis/LoginAPI';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -29,6 +30,8 @@ const style = {
 };
 
 export default function LoginModal(props) {
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -67,7 +70,7 @@ export default function LoginModal(props) {
   };
 
   const handleClickLoginButton = () => {
-    LoginAPI(values.username, values.password, dispatch, setAuthErr, handleClose);
+    LoginAPI(values.username, values.password, dispatch, setAuthErr, handleClose, navigate);
   }
 
 

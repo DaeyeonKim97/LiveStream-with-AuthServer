@@ -2,7 +2,7 @@ import axios from 'axios';
 import { LOGIN } from '../modules/AuthModule';
 
 
-export function LoginAPI(userName, password, dispatch, setAuthErr, handleClose){
+export function LoginAPI(userName, password, dispatch, setAuthErr, handleClose, navigate){
     const requestURL = 'http://localhost:8888/login'
     const infoURL = 'http://localhost:8888/info'
     axios.post(requestURL,{
@@ -26,6 +26,8 @@ export function LoginAPI(userName, password, dispatch, setAuthErr, handleClose){
                 type: LOGIN,
             })
             handleClose();
+            alert('로그인 되었습니다.');
+            navigate('/');
         })
     })
     .catch((err)=>{

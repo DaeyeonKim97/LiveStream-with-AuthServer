@@ -12,10 +12,12 @@ import PodcastsIcon from '@mui/icons-material/Podcasts';
 import LoginModal from '../basic/LoginModal';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOGOUT } from '../../modules/AuthModule';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const isLogged = useSelector(state=>state.authReducer);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogout = () =>{
         dispatch({
@@ -24,6 +26,7 @@ export default function Header() {
         alert('로그아웃 되었습니다.');
 
         localStorage.clear();
+        navigate('/');
     }
 
     return (
@@ -54,7 +57,7 @@ export default function Header() {
                         </LoginModal>
                      :
                         <Button color="inherit" onClick={handleLogout}>
-                            out
+                            Logout
                         </Button>
                     }               
                 </Toolbar>

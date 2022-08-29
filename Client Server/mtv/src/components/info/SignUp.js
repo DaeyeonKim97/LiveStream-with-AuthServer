@@ -12,6 +12,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Alert, AlertTitle } from '@mui/material';
+import { SignUpAPI } from '../../apis/SignUpAPI';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -29,6 +39,36 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const [values, setValues] = React.useState({
+    userName: '',
+    name: '',
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    email: '',
+    showPassword: false,
+  });
+
+  const [signUpErr, setSignUpErr] = React.useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,6 +77,10 @@ export default function SignUp() {
       password: data.get('password'),
     });
   };
+
+  const onClickHandler = () => {
+    SignUpAPI(values, setSignUpErr, navigate);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,7 +103,7 @@ export default function SignUp() {
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <TextField
+                <TextField value={values.userName} onChange={handleChange('userName')}
                   autoComplete="given-name"
                   name="userName"
                   required
@@ -70,7 +114,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <TextField value={values.name} onChange={handleChange('name')}
                   required
                   fullWidth
                   id="name"
@@ -80,7 +124,7 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
+                <TextField value={values.email} onChange={handleChange('email')}
                   required
                   fullWidth
                   id="email"
@@ -90,15 +134,28 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
+                <FormControl variant="outlined" style={{width:"100%"}}>
+                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={values.showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    onChange={handleChange('password')}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
@@ -108,13 +165,20 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={onClickHandler}
             >
               Sign Up
             </Button>
+            {signUpErr ?
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              회원 가입에 실패했습니다. — <strong>ID/EMAIL 중복여부 확인</strong>
+            </Alert>
+            : null
+            } 
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
