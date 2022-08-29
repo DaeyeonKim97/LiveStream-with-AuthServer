@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import StreamCard from '../basic/StreamCard';
 import Pagination from '@mui/material/Pagination';
 import Divider from '@mui/material/Divider';
+import { GetLivesAPI } from '../../apis/GetLivesAPI';
 
 const cardData = [
     {
@@ -40,11 +41,22 @@ const cardData = [
 ]
 
 export default function MainPage(){
+
+    const [lives, setLives] = React.useState([]);
+
+    React.useEffect(
+        ()=>{
+            GetLivesAPI(setLives);
+            console.log(lives);
+        },
+        []
+    )
+
     return(
         <Box style={{padding:'10px'}}>
             <Box sx={{ width: '100%' }}>
                 <Typography variant="h3" gutterBottom style={{margin : 10}}>
-                    <b  style={{color:'#1976d2'}} >MTVS </b>실시간 스트리밍 서비스
+                    <b  style={{color:'#1976d2'}} >MTV's </b> live streaming
                 </Typography>
                 <Divider/>
             </Box>
@@ -60,6 +72,11 @@ export default function MainPage(){
                 <b>Live Stream</b>
             </Typography>
             <Box style={{display:'flex', flexFlow:'wrap', justifyContent:'space-between'}}>
+                {
+                    lives.map((data, index)=>{
+                        return <StreamCard streamerId={data.userName} key={index}/>
+                    })
+                }
                 {
                     cardData.map((data, index)=>{
                         return <StreamCard alt={data.alt} image={data.image}

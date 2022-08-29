@@ -7,23 +7,45 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import { Link } from 'react-router-dom';
+import { SearchStreamKeyAPI } from '../../apis/SearchStreamKeyAPI';
 
 export default function StreamCard(props) {
+
+  const [streamKey, setStreamKey] = React.useState('');
+  const [image, setImage] = React.useState('');
+
+  React.useEffect(()=>{
+    if(props.title === undefined){
+      SearchStreamKeyAPI(props.streamerId, setStreamKey);
+    }
+  },[])
+
+  
+
   return (
     <Card sx={{ width: 250 }} style={{margin : '10px'}}>
+      {streamKey===''?
       <CardMedia
         component="img"
         alt={props.alt}
         height="180"
         image={props.image}
       />
+      :
+      <CardMedia
+        component="img"
+        alt={props.alt}
+        height="180"
+        image={'http://192.168.0.36:8001/thumbnails/'+streamKey+'.png'}
+      />
+      }
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" style={{fontFamily: 'BMDOHYEON', display : 'flex'}}>
           <Avatar src={props.profile}/>
-          <div style={{display:'flex', alignItems:'bottom', marginLeft:'10px'}}>{props.title}</div>
+          <div style={{display:'flex', alignItems:'bottom', marginLeft:'10px'}}>{props.streamerId}</div>
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {props.streamerId}
+          🔴 Live ON! click watch👇
         </Typography>
       </CardContent>
       <CardActions>

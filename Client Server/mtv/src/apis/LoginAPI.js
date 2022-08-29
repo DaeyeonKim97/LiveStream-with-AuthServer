@@ -3,8 +3,8 @@ import { LOGIN } from '../modules/AuthModule';
 
 
 export function LoginAPI(userName, password, dispatch, setAuthErr, handleClose, navigate){
-    const requestURL = 'http://localhost:8888/login'
-    const infoURL = 'http://localhost:8888/info'
+    const requestURL = 'http://192.168.0.36:8888/login'
+    const infoURL = 'http://192.168.0.36:8888/info'
     axios.post(requestURL,{
         userName : userName,
         password : password
