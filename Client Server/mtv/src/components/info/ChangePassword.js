@@ -10,6 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import { ChangePasswordAPI } from '../../apis/ChangePasswordAPI';
+import { Alert, AlertTitle } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -27,6 +30,23 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function ChangePassword() {
+
+  const navigate = useNavigate();
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const [values, setValues] = React.useState({
+    oldPassword : '', newPassword : ''
+  });
+
+  const [passErr, setPassErr] = React.useState(false);
+
+  const onClickHandler = () =>{
+    ChangePasswordAPI(values.oldPassword, values.newPassword, setPassErr, navigate);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -63,6 +83,8 @@ export default function ChangePassword() {
                         label="기존 비밀번호"
                         type="password"
                         id="oldPassword"
+                        value={values.oldPassword}
+                        onChange={handleChange('oldPassword')}
                         autoComplete="new-password"
                     />
                 </Grid>
@@ -74,18 +96,27 @@ export default function ChangePassword() {
                         label="신규 비밀번호"
                         type="password"
                         id="newPassword"
+                        value={values.newPassword}
+                        onChange={handleChange('newPassword')}
                         autoComplete="new-password"
                     />
               </Grid>
             </Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={onClickHandler}
             >
               변경
             </Button>
+            {passErr ?
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              비밀번호 변경에 실패했습니다. — <strong>기존 비밀번호 확인</strong>
+            </Alert>
+            : null
+            }
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

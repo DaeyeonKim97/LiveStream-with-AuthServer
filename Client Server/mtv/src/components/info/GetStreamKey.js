@@ -10,6 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { GenerateStreamKeyAPI } from '../../apis/GenerateStreamKeyAPI';
+import { GetStreamKeyAPI } from '../../apis/GetStreamKeyAPI';
 
 function Copyright(props) {
   return (
@@ -34,6 +36,16 @@ export default function GetStreamKey() {
       password: data.get('password'),
     });
   };
+
+  const [key, setKey] = React.useState('');
+
+  React.useEffect(()=>{
+    GetStreamKeyAPI(setKey);
+  },[])
+
+  const onClickHandler = () =>{
+    GenerateStreamKeyAPI(setKey);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,15 +77,15 @@ export default function GetStreamKey() {
                             readOnly: true,
                         }}
                         variant='filled'
-                        defaultValue='dXwj2301s'
+                        value={key}
                     />
                 </Grid>
             </Grid>
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={onClickHandler}
             >
               신규 발급 받기
             </Button>

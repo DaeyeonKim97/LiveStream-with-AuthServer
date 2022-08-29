@@ -45,7 +45,7 @@ export default function Header() {
                         </IconButton>
                     </DrawerTemplate>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{display:'flex', alignContent:'bottom'}}>
-                        MTVS
+                        MTV's
                         <PodcastsIcon/>
                     </Typography>
                     <SearchForm/>
