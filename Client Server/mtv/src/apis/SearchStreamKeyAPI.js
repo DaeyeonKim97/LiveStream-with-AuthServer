@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 export function SearchStreamKeyAPI(userName, setStreamkey){
-    const requestURL = 'http://192.168.0.36:8001/stream/key'
+    const requestURL = 'http://localhost:8001/stream/key'
     axios.post(requestURL,{
         userName : userName
     })

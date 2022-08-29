@@ -1,6 +1,8 @@
 const app = require('express')();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http,{
+    cors:{origin: "*"}
+});
 
 // app.set('view engine', 'ejs');
 // app.set('views', './views');
@@ -11,6 +13,8 @@ const io = require('socket.io')(http);
   
 
 io.on('connection',(socket)=>{
+    console.log('connected');
+
     socket.on('disconnect',()=>{
         console.log('user disconnected');
     });
@@ -22,6 +26,7 @@ io.on('connection',(socket)=>{
     });
 
     socket.on('joinRoom', (roomName, name) => {
+        console.log('joinRoom',roomName, name)
         io.to(roomName).emit('joinRoom',roomName,name);
 
         socket.join(roomName)

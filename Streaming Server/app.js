@@ -6,6 +6,7 @@ const express = require('express');
 const app = express()
 const apiRouter = require('./routes/api-route');
 const thumbnail_generator = require('./thumbnail/cron_thumbnail');
+const cors = require('cors');
 
 mongoose.connect('mongodb://127.0.0.1/nodeStream',{useNewUrlParser:true}, (err)=>{
   if(err){
@@ -16,6 +17,7 @@ mongoose.connect('mongodb://127.0.0.1/nodeStream',{useNewUrlParser:true}, (err)=
   }
 });
 
+app.use(cors());
 app.use(express.json());
 app.use('/stream',apiRouter);
 app.use('/thumbnails',express.static('thumbnails'));
