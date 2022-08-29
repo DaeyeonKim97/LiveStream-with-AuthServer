@@ -10,8 +10,12 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function DrawerTemplate(props) {
+
+  const isLogged = useSelector(state=>state.authReducer);
+
   const [state, setState] = React.useState({
     left: false
   });
@@ -53,7 +57,7 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='전체 방송' />
                 </ListItemButton>
             </ListItem>
-
+            { !isLogged ?
             <Link to='/signup'>
             <ListItem disablePadding>
                 <ListItemButton>
@@ -63,9 +67,11 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='회원 가입' />
                 </ListItemButton>
             </ListItem>
-            </Link>
+            </Link> : null
+            }
         </List>
         <Divider />
+        { isLogged ?
         <List>
             <Link to='/info'>
             <ListItem disablePadding>
@@ -99,7 +105,8 @@ export default function DrawerTemplate(props) {
                 </ListItemButton>
             </ListItem>
             </Link>
-        </List>
+        </List> : null
+        }
     </Box>
   );
 

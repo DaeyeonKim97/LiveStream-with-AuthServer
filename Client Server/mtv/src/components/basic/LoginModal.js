@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import { Divider } from '@mui/material';
+import { Divider,Alert,AlertTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,6 +13,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginAPI } from '../../apis/LoginAPI';
 
 const style = {
   position: 'absolute',
@@ -27,12 +29,22 @@ const style = {
 };
 
 export default function LoginModal(props) {
+
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setAuthErr(false);
+    setValues({username : '' , password : ''});
+  };
+
+  const [authErr, setAuthErr] = React.useState(false);
 
 
   const [values, setValues] = React.useState({
+    username: '',
     amount: '',
     password: '',
     weight: '',
@@ -54,6 +66,9 @@ export default function LoginModal(props) {
     event.preventDefault();
   };
 
+  const handleClickLoginButton = () => {
+    LoginAPI(values.username, values.password, dispatch, setAuthErr, handleClose);
+  }
 
 
   return (
@@ -71,7 +86,8 @@ export default function LoginModal(props) {
           </Typography>
           <Divider style={{marginBottom:'20px'}}/>
           <Stack spacing={2}>
-            <TextField id="outlined-basic" label="username" variant="outlined" />
+            <TextField id="outlined-basic-id" label="username" variant="outlined" 
+                        value={values.username} onChange={handleChange('username')}/>
             <FormControl sx={{ m: 1 }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
@@ -95,9 +111,16 @@ export default function LoginModal(props) {
               />
             </FormControl>
           </Stack>
-          <div style={{textAlign:'right', marginTop:15}}>
+          <div style={{textAlign:'right', marginTop:15, marginBottom:15}} onClick={handleClickLoginButton}>
             <Button variant="contained">login</Button>
           </div>
+          {authErr ?
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              아이디 혹은 비밀번호가 틀렸습니다! — <strong>check it out!</strong>
+            </Alert>
+            : null
+          }     
         </Box>
       </Modal>
     </div>

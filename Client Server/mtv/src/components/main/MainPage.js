@@ -62,7 +62,6 @@ export default function MainPage(){
             <Box style={{display:'flex', flexFlow:'wrap', justifyContent:'space-between'}}>
                 {
                     cardData.map((data, index)=>{
-                        console.log('here');
                         return <StreamCard alt={data.alt} image={data.image}
                                     title={data.title} streamerId={data.streamerId} key={index}/>
                     })

@@ -10,35 +10,55 @@ import SearchForm from '../basic/SearchForm';
 import DrawerTemplate from '../basic/Drawer';
 import PodcastsIcon from '@mui/icons-material/Podcasts';
 import LoginModal from '../basic/LoginModal';
+import { useSelector, useDispatch } from 'react-redux';
+import { LOGOUT } from '../../modules/AuthModule';
 
 export default function Header() {
-  return (
-    <Box sx={{ flexGrow: 1 }} style={{position: 'sticky', top: 0, zIndex: 999}}>
-        <AppBar position="static">
-            <Toolbar>
-                <DrawerTemplate>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                    <MenuIcon />
-                    </IconButton>
-                </DrawerTemplate>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{display:'flex', alignContent:'bottom'}}>
-                    MTVS
-                    <PodcastsIcon/>
-                </Typography>
-                <SearchForm/>
-                <LoginModal>
-                    <Button color="inherit">
-                        Login
-                    </Button>
-                </LoginModal>
-            </Toolbar>
-        </AppBar>
-    </Box>
-  );
+    const isLogged = useSelector(state=>state.authReducer);
+    const dispatch = useDispatch();
+
+    const handleLogout = () =>{
+        dispatch({
+            type: LOGOUT
+        })
+        alert('로그아웃 되었습니다.');
+
+        localStorage.clear();
+    }
+
+    return (
+        <Box sx={{ flexGrow: 1 }} style={{position: 'sticky', top: 0, zIndex: 999}}>
+            <AppBar position="static">
+                <Toolbar>
+                    <DrawerTemplate>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                        <MenuIcon />
+                        </IconButton>
+                    </DrawerTemplate>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{display:'flex', alignContent:'bottom'}}>
+                        MTVS
+                        <PodcastsIcon/>
+                    </Typography>
+                    <SearchForm/>
+                    {isLogged===false ?
+                        <LoginModal>
+                            <Button color="inherit">
+                                Login
+                            </Button>
+                        </LoginModal>
+                     :
+                        <Button color="inherit" onClick={handleLogout}>
+                            out
+                        </Button>
+                    }               
+                </Toolbar>
+            </AppBar>
+        </Box>
+    );
 }
