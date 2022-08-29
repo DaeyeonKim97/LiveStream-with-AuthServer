@@ -9,6 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Link } from 'react-router-dom';
 
 export default function DrawerTemplate(props) {
   const [state, setState] = React.useState({
@@ -33,6 +34,7 @@ export default function DrawerTemplate(props) {
         <h1 align="center">MTVS 메뉴</h1>
         <Divider />
         <List>
+            <Link to='/'>
             <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
@@ -41,6 +43,8 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='메인페이지' />
                 </ListItemButton>
             </ListItem>
+            </Link>
+
             <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
@@ -49,17 +53,21 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='전체 방송' />
                 </ListItemButton>
             </ListItem>
+
+            <Link to='/signup'>
             <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
                     {1 % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                     </ListItemIcon>
-                    <ListItemText primary='실시간 방송' />
+                    <ListItemText primary='회원 가입' />
                 </ListItemButton>
             </ListItem>
+            </Link>
         </List>
         <Divider />
         <List>
+            <Link to='/info'>
             <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
@@ -68,6 +76,9 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='회원 정보 수정' />
                 </ListItemButton>
             </ListItem>
+            </Link>
+
+            <Link to ='password'>
             <ListItem disablePadding>
                 <ListItemButton>
                     <ListItemIcon>
@@ -76,6 +87,18 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='비밀번호 변경' />
                 </ListItemButton>
             </ListItem>
+            </Link>
+
+            <Link to ='key'>
+            <ListItem disablePadding>
+                <ListItemButton>
+                    <ListItemIcon>
+                      <MailIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='Stream key 발급' />
+                </ListItemButton>
+            </ListItem>
+            </Link>
         </List>
     </Box>
   );
