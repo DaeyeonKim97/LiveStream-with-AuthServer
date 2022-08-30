@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function GetStreamKeyAPI(setKey){
-    const requestURL = 'http://localhost:8001/stream/key';
+    const requestURL = 'http://192.168.0.36:8001/stream/key';
     axios.post(requestURL,{
         userName : localStorage.getItem('userName')
     })

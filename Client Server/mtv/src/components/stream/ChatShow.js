@@ -4,6 +4,7 @@ import { Button, List, TextField } from '@mui/material';
 import Chat from './Chat';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
+import { useRef } from 'react';
 
 const data = [
     {
@@ -12,22 +13,25 @@ const data = [
 ]
 
 
-const socket = io.connect('localhost:3334');
+const socket = io.connect('192.168.0.36:3334');
 
 export default function ChatShow(props){
 
     const isLogged = useSelector(state=>state.authReducer);
+    const isLoggedLocal = localStorage.getItem('isLogged');
 
     let name = 'test';
 
-    if(isLogged){
+    if(isLoggedLocal){
         name = localStorage.getItem('name');
     }
     
+    socket.emit('joinRoom',props.streamerId, name);
+
+    
     const [message, setMessage] = React.useState('');
     const [chat, setChat] = React.useState([]);
-    
-    socket.emit('joinRoom',props.streamerId, name);
+
 
     socket.on('chat message',(name,message)=>{
         setChat([...chat, {name, message}])
@@ -56,6 +60,12 @@ export default function ChatShow(props){
         }
     }
 
+    const messageEndRef = useRef(null);
+    const scrollToBottom = () =>{
+        messageEndRef.current.scrollIntoView({behavior:"smooth"})
+    }
+    React.useEffect(scrollToBottom,[chat])
+
     const renderChat = () => {
         return chat.map(({name, message},index)=>(
             <Chat name={name} message={message}/>
@@ -74,10 +84,21 @@ export default function ChatShow(props){
                         })
                     }
                     {renderChat()}
+                    <div ref={messageEndRef}/>
                 </List>
                 <div style={{height:'10%',position:'sticky',bottom:'0px'}}>
+                    { localStorage.getItem('isLogged')?
+                    <>
                     <TextField size="small" value={message} onChange={onTextChange} style={{width:'75%'}} onKeyDown={onPressEnter}/>
                     <Button variant="contained" onClick={onMessageSubmit} style={{width:'5%'}}>전송</Button>
+                    </>
+                    :
+                    <TextField
+                        disabled
+                        label="채팅은 로그인 후 이용해주세요!"
+                        style={{width:'100%'}} 
+                    />
+                    }
                 </div>
             </div>
         </Box>

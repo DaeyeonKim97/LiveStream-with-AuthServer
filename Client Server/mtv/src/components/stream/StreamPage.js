@@ -32,7 +32,7 @@ export default function StreamPage(props){
 
     return(
         <Grid container spacing={1} >
-            <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={8}>
                 {streamKey?<StreamShow streamKey={streamKey}/>:null}
             </Grid>
             <Grid item xs={12} sm={3}>

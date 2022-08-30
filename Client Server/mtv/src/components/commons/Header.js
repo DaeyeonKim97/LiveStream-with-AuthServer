@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const isLogged = useSelector(state=>state.authReducer);
+    const isLoggedLocal = localStorage.getItem('isLogged');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -49,7 +50,7 @@ export default function Header() {
                         <PodcastsIcon/>
                     </Typography>
                     <SearchForm/>
-                    {isLogged===false ?
+                    {!isLoggedLocal ?
                         <LoginModal>
                             <Button color="inherit">
                                 Login

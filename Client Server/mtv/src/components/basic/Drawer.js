@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 export default function DrawerTemplate(props) {
 
   const isLogged = useSelector(state=>state.authReducer);
+  const isLoggedLocal = localStorage.getItem('isLogged');
 
   const [state, setState] = React.useState({
     left: false
@@ -57,7 +58,7 @@ export default function DrawerTemplate(props) {
                     <ListItemText primary='전체 방송' />
                 </ListItemButton>
             </ListItem>
-            { !isLogged ?
+            { !isLoggedLocal ?
             <Link to='/signup'>
             <ListItem disablePadding>
                 <ListItemButton>
@@ -71,7 +72,7 @@ export default function DrawerTemplate(props) {
             }
         </List>
         <Divider />
-        { isLogged ?
+        { isLoggedLocal ?
         <List>
             <Link to='/info'>
             <ListItem disablePadding>
