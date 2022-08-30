@@ -1,7 +1,7 @@
 const config = {
     server: {
         secret: 'dykim',
-        host: 'http://localhost',
+        host: 'http://192.168.0.36',
         port : 8001
     },
     rtmp_server: {
