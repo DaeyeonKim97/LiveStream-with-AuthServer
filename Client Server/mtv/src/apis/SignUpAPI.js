@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function SignUpAPI(values, setSignUpErr, navigate){
-    const requestURL = 'http://192.168.0.36:8888/signup'
+    const requestURL = 'http://localhost:8888/signup'
     
     axios.post(requestURL,{
         userName: values.userName,

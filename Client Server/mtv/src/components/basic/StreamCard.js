@@ -36,7 +36,7 @@ export default function StreamCard(props) {
         component="img"
         alt={props.alt}
         height="180"
-        image={'http://192.168.0.36:8001/thumbnails/'+streamKey+'.png'}
+        image={'http://localhost:8001/thumbnails/'+streamKey+'.png'}
       />
       }
       <CardContent>

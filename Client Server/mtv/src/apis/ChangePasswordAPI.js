@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function ChangePasswordAPI(oldPassword, newPassword, setPassErr, navigate){
-    const requestURL = 'http://192.168.0.36:8888/info/password';
+    const requestURL = 'http://localhost:8888/info/password';
     axios.put(requestURL,{
             oldPassword:oldPassword,
             newPassword:newPassword,

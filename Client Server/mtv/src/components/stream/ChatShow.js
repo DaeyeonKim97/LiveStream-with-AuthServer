@@ -13,7 +13,7 @@ const data = [
 ]
 
 
-const socket = io.connect('192.168.0.36:3334');
+const socket = io.connect('localhost:3334');
 
 export default function ChatShow(props){
 
